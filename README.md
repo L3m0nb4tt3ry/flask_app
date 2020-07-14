@@ -30,5 +30,23 @@ options come up, click on "Logging" this is where you will see the fruits of you
  from flaskext.mysql import MySQL
  
 =======
+#$Microservice architecture - repository structure
+```
+python-microservices/
+.
+├── service/
+│   ├── usermanagement_service/
+│   │   ├── api/
+│   │   │   ├── usermanagement.py
+│   │   │   ├── db_manager.py
+│   │   │   ├── db.py
+│   │   │   ├── models.py
+│   │   ├── main.py
+│   ├── Dockerfile
+│   └── requirements.txt
+├── wish_service/
+...
+```
+
 # flask_app
 >>>>>>> bc10c08feacdf6a2000ff3598953eb0b7ba73b61

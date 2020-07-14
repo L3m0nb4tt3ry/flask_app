@@ -49,12 +49,36 @@ docker-compose up -d --build
 ```
 
 # Problems
-1. Broken SQL queries were used which prevented creating any table
+1. Broken SQL queries were used which prevented creating any table, unique constraints, parameter sizes etc.
 2. Ajax button links missing - Becase of missing ajax button link, nothing happens when u click on signup
 3. Response printed on console
 4. Broken packages were imported
 5. Broken code - wherever user Id is required whole user object was passed
 6. Broken authentication - plain text was stored in db and which is then compared with hashed string resulting in mismatch
+7. MySQL running with root account
+# Approach to containerize 
+1. Configure the application locally solved all the issues and made it working
+2. Split the applicationa and mysql db 
+3. Created flask_app container - Issue occured /it was not exposed since default flask_app listens to loopback inside container
+4. exposed the app with host=0.0.0.0
+5. Created docker container for mysql  -Manually ran the script and checked whether everything is working fine
+6. created boostrap script to initiate all the tables and stored procedures
+7. Created a docker-compose file to link flask_app and mysqldb containers
+8. Created github actions for source code review
+# What can be done further
+1. Use nginx proxy with uWSgi and split the app in views and APIs and data calls ```User - > Nginx --> uWsgi-view.py -> REST api.py -> Data_layer -> DB container```
+2. Implement vault to store/use secrets
+3. Implement API gateway to have communication among microservice layers (jwt flow)
+4. Use db connection from non root user
+5. Implement DevOps pipeline to build docker images from source code repository
+6. Implement security unit test
+7. Docker image scanning and container run time checks integration
+8. Deployment in k8s/managed k8s
+
+```+Firewall+ -> Front end-> Makes Request to backend APIs with (User Token)-> BFF(Backend For Frontend) --> Makes call to internal microserivce with APP token```
+
+``Front end -> **API Gateway*** Backend For Frontend -> **API Gateway** Microservices```
+
 ```
 SQL Qureies
 CREATE TABLE `BucketList`.`tbl_user` (
@@ -72,19 +96,8 @@ CREATE TABLE `BucketList`.`tbl_user` (
   `user_password` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`user_id`));
 ```
-  Ajax button links were missing
-```javascript
-    <script src="../static/js/jquery-3.2.1.js"></script>
-    <script src="../static/js/SignUp.js"></script>
-```
- Then finally, go to the webpage click on the big sign up button, fill in some details and click "Sign up", nothing will happen, just so you know. Right click on 
-the page somewhere and choose "Inspect Element" which should pop up a box along the bottom of the screen, choose the console, then on my browser Firefox, a few more 
-options come up, click on "Logging" this is where you will see the fruits of your work. I hope that has been helpful to someone as it was driving me nuts!
- 
- from flaskext.mysql import MySQL
- 
-=======
-##Microservice architecture - repository structure
+
+## Microservice architecture - repository structure
 ```
 python-microservices/
 .

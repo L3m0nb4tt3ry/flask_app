@@ -5,18 +5,11 @@ from flask import session
 
 app = Flask(__name__)
 mysql = MySQL()
-
+app.config.from_pyfile('config.py')
 # initializa secret key
-app.secret_key = 'why would I tell you my secret key?'
-
-# MySQL configurations
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
-app.config['MYSQL_DATABASE_DB'] = 'BucketList'
-app.config['MYSQL_DATABASE_HOST'] = 'db'
 mysql.init_app(app)
 
-
+print(app.config)
 # helper function
 def check_password(acc_pass, provided_pass):
     # provided_pass = generate_password_hash(provided_pass)
